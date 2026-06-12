@@ -2,26 +2,96 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --font-syne: "Syne", sans-serif;
+    --font-inter: "Inter", sans-serif;
   }
-}
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    color: #1a1a1a;
+    background: #ffffff;
+    font-family: var(--font-inter), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid #00713D;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .emerald-bg :focus-visible,
+  .forest-bg :focus-visible {
+    outline-color: #C9A227;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .font-tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-emerald px-7 py-3.5 font-inter text-[0.9375rem] font-semibold text-white transition-all duration-200 ease-out;
+    @apply hover:bg-forest;
+    @apply focus-visible:outline-gold focus-visible:outline-2;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+    box-shadow: inset 0 0 0 1px transparent;
+  }
+
+  .btn-primary:hover {
+    box-shadow: inset 0 0 0 1px rgba(201, 162, 39, 0.4);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-emerald px-7 py-3.5 font-inter text-[0.9375rem] font-semibold text-emerald transition-all duration-200;
+    @apply hover:bg-emerald hover:text-white;
+  }
+
+  .section-pad {
+    @apply py-[clamp(4rem,8vw,7rem)];
+  }
+
+  .container-main {
+    @apply mx-auto w-full max-w-[1200px] px-5 md:px-8 lg:px-10;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
