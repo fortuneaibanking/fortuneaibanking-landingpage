@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { easeOut } from "@/lib/motion";
+import LogoVideo from "./LogoVideo";
 
 type Phase = "raining" | "rolling" | "revealed" | "dismissed";
 
@@ -68,7 +69,6 @@ export default function SplashOverlay() {
   const [mounted, setMounted] = useState(true);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const rafRef = useRef<number>(0);
   const phaseRef = useRef<Phase>("raining");
   const t1 = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -76,13 +76,6 @@ export default function SplashOverlay() {
 
   useEffect(() => {
     phaseRef.current = phase;
-  }, [phase]);
-
-  // Trigger video play when rolling phase mounts
-  useEffect(() => {
-    if (phase === "rolling" && videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
   }, [phase]);
 
   useEffect(() => {
@@ -226,21 +219,17 @@ export default function SplashOverlay() {
             transition={{ duration: 0.5, ease: easeOut }}
             className="relative z-10 flex flex-col items-center gap-8 px-6 text-center"
           >
-            {/* Logo animation — white bg removed via multiply blend */}
+            {/* Logo animation — bg removed per-frame via canvas pixel processing */}
             <div
               style={{
                 filter: "drop-shadow(0 24px 48px rgba(11,46,31,0.18)) drop-shadow(0 6px 12px rgba(11,46,31,0.10))",
               }}
             >
-              <video
-                ref={videoRef}
+              <LogoVideo
                 src="/brand/fortune-logo.mp4"
-                muted
-                playsInline
+                play={phase === "rolling" || phase === "revealed"}
                 onEnded={() => setPhase("revealed")}
                 className="w-56 md:w-72 lg:w-96 select-none"
-                style={{ mixBlendMode: "multiply" }}
-                aria-label="Fortune logo animation"
               />
             </div>
 
