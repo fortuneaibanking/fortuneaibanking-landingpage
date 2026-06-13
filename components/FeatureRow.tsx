@@ -41,7 +41,7 @@ function FeatureItem({
           variants={fadeUp}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="font-syne font-extrabold text-forest mb-4"
+          className="font-manrope font-extrabold text-forest mb-4"
           style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", letterSpacing: "-0.025em" }}
         >
           {feature.h2}

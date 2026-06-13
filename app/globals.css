@@ -4,7 +4,8 @@
 
 @layer base {
   :root {
-    --font-syne: "Syne", sans-serif;
+    --font-manrope: "Manrope", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
     --font-inter: "Inter", sans-serif;
   }
 

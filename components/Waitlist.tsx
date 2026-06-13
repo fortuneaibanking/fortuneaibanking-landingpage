@@ -69,7 +69,7 @@ export default function Waitlist() {
             variants={fadeUp}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
-            className="font-syne font-extrabold text-white mb-4"
+            className="font-manrope font-extrabold text-white mb-4"
             style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)", letterSpacing: "-0.025em" }}
           >
             {waitlist.h2}
@@ -95,7 +95,7 @@ export default function Waitlist() {
             >
               {/* Gold shimmer animation */}
               <div
-                className="inline-block font-syne font-extrabold text-[1.5rem] tracking-tight mb-2"
+                className="inline-block font-manrope font-extrabold text-[1.5rem] tracking-tight mb-2"
                 style={{
                   background: "linear-gradient(90deg, #ffffff 20%, #C9A227 50%, #ffffff 80%)",
                   backgroundSize: "200% auto",

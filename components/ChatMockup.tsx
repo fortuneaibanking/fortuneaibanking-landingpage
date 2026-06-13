@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type React from "react";
 import { motion, useInView } from "framer-motion";
 import { easeOut } from "@/lib/motion";
 
@@ -9,6 +10,24 @@ type Message = {
   text: string;
   gold?: boolean;
 };
+
+// Wrap Nigerian naira amounts, account numbers, and data sizes in mono spans
+function renderWithMono(text: string): React.ReactNode {
+  const pattern = /(N[\d,]+|₦[\d,]+|\d{10}|\d+GB|\d+MB)/g;
+  const parts = text.split(pattern);
+  const matches = text.match(pattern) ?? [];
+  return parts.reduce<React.ReactNode[]>((acc, part, i) => {
+    acc.push(part);
+    if (matches[i]) {
+      acc.push(
+        <span key={i} className="font-mono font-medium tracking-tight">
+          {matches[i]}
+        </span>
+      );
+    }
+    return acc;
+  }, []);
+}
 
 interface ChatMockupProps {
   messages: readonly Message[];
@@ -48,7 +67,7 @@ export default function ChatMockup({ messages, compact = false }: ChatMockupProp
       {/* WhatsApp-style header */}
       <div className="flex items-center gap-2.5 pb-3 mb-3 border-b border-black/8">
         <div className="w-8 h-8 rounded-full bg-emerald flex items-center justify-center flex-shrink-0">
-          <span className="font-syne font-bold text-white text-xs">F</span>
+          <span className="font-manrope font-bold text-white text-xs">F</span>
         </div>
         <div>
           <p className="font-inter font-semibold text-[0.8rem] text-ink leading-none">Fortune</p>
@@ -79,11 +98,11 @@ export default function ChatMockup({ messages, compact = false }: ChatMockupProp
             >
               {msg.gold ? (
                 <>
-                  {msg.text.replace(" Ire o!", "")}{" "}
+                  {renderWithMono(msg.text.replace(" Ire o!", ""))}{" "}
                   <span className="text-gold font-bold">Ire o!</span>
                 </>
               ) : (
-                msg.text
+                renderWithMono(msg.text)
               )}
             </div>
           </motion.div>

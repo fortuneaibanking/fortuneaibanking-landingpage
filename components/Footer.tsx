@@ -42,7 +42,7 @@ export default function Footer() {
                 height={32}
                 className="w-8 h-8 object-contain brightness-0 invert"
               />
-              <span className="font-syne font-bold text-white text-base tracking-[-0.02em]">Fortune</span>
+              <span className="font-manrope font-bold text-white text-base tracking-[-0.02em]">Fortune</span>
             </Link>
             <p className="font-inter text-[0.875rem] text-white/55 leading-relaxed max-w-[220px]">
               {footer.tagline}{" "}
@@ -70,7 +70,7 @@ export default function Footer() {
 
           {/* Product links */}
           <div>
-            <h3 className="font-syne font-semibold text-white text-[0.8rem] tracking-wide uppercase mb-4">
+            <h3 className="font-manrope font-semibold text-white text-[0.8rem] tracking-wide uppercase mb-4">
               {footer.columns.product.heading}
             </h3>
             <ul className="flex flex-col gap-2.5" role="list">
@@ -89,7 +89,7 @@ export default function Footer() {
 
           {/* Legal links */}
           <div>
-            <h3 className="font-syne font-semibold text-white text-[0.8rem] tracking-wide uppercase mb-4">
+            <h3 className="font-manrope font-semibold text-white text-[0.8rem] tracking-wide uppercase mb-4">
               {footer.columns.legal.heading}
             </h3>
             <ul className="flex flex-col gap-2.5" role="list">
@@ -108,7 +108,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="font-syne font-semibold text-white text-[0.8rem] tracking-wide uppercase mb-4">
+            <h3 className="font-manrope font-semibold text-white text-[0.8rem] tracking-wide uppercase mb-4">
               {footer.columns.contact.heading}
             </h3>
             <a

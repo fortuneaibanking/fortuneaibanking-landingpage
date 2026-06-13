@@ -49,7 +49,7 @@ export default function EverydayLife() {
           variants={fadeUp}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="font-syne font-extrabold text-forest mb-12"
+          className="font-manrope font-extrabold text-forest mb-12"
           style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", letterSpacing: "-0.025em" }}
         >
           {everydayLife.h2}
@@ -70,7 +70,7 @@ export default function EverydayLife() {
                 {cardIcons[i]}
               </div>
               <div>
-                <h3 className="font-syne font-bold text-forest text-[1rem] tracking-tight mb-1.5">
+                <h3 className="font-manrope font-bold text-forest text-[1rem] tracking-tight mb-1.5">
                   {card.title}
                 </h3>
                 <p className="font-inter text-[0.875rem] leading-[1.6] text-ink/60">

@@ -269,7 +269,7 @@ export default function SplashOverlay() {
                 >
                   <div>
                     <p
-                      className="font-syne font-extrabold text-forest text-balance leading-tight mb-2"
+                      className="font-manrope font-extrabold text-forest text-balance leading-tight mb-2"
                       style={{
                         fontSize: "clamp(1.35rem, 4vw, 2.25rem)",
                         letterSpacing: "-0.025em",
@@ -278,7 +278,7 @@ export default function SplashOverlay() {
                       Something amazing is cooking.
                     </p>
                     <p
-                      className="font-syne font-bold text-gold"
+                      className="font-manrope font-bold text-gold"
                       style={{
                         fontSize: "clamp(1.1rem, 3vw, 1.75rem)",
                         letterSpacing: "-0.02em",

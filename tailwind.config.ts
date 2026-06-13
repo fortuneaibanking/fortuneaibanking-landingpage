@@ -15,8 +15,9 @@ const config: Config = {
         ink: { DEFAULT: "#1A1A1A" },
       },
       fontFamily: {
-        syne: ["var(--font-syne)", "sans-serif"],
+        manrope: ["var(--font-manrope)", "sans-serif"],
         inter: ["var(--font-inter)", "sans-serif"],
+        mono: ["var(--font-mono)", "monospace"],
       },
       fontSize: {
         "display-xl": ["clamp(2.5rem, 6vw, 4rem)", { lineHeight: "1.05", letterSpacing: "-0.03em" }],

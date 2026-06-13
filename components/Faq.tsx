@@ -17,7 +17,7 @@ function FaqItem({ item, index }: { item: { q: string; a: string }; index: numbe
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between gap-4 py-5 text-left focus-visible:outline-emerald"
       >
-        <span className="font-syne font-semibold text-forest text-[0.9875rem] tracking-tight">
+        <span className="font-manrope font-semibold text-forest text-[0.9875rem] tracking-tight">
           {item.q}
         </span>
         <span
@@ -75,7 +75,7 @@ export default function Faq() {
           >
             <h2
               id="faq-heading"
-              className="font-syne font-extrabold text-forest"
+              className="font-manrope font-extrabold text-forest"
               style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", letterSpacing: "-0.025em" }}
             >
               {faq.h2}

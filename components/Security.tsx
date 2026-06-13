@@ -49,7 +49,7 @@ export default function Security() {
           variants={fadeUp}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="font-syne font-extrabold text-forest text-center mb-14"
+          className="font-manrope font-extrabold text-forest text-center mb-14"
           style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", letterSpacing: "-0.025em" }}
         >
           {security.h2}
@@ -70,7 +70,7 @@ export default function Security() {
                 <div className="w-11 h-11 rounded-xl bg-emerald/8 flex items-center justify-center text-emerald mb-5">
                   <Icon />
                 </div>
-                <h3 className="font-syne font-bold text-forest text-[1.0625rem] tracking-tight mb-2.5">
+                <h3 className="font-manrope font-bold text-forest text-[1.0625rem] tracking-tight mb-2.5">
                   {card.title}
                 </h3>
                 <p className="font-inter text-[0.9rem] leading-[1.7] text-ink/65">

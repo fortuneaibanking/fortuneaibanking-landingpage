@@ -38,7 +38,7 @@ export default function Navbar() {
             className="w-9 h-9 object-contain"
             priority
           />
-          <span className="font-syne font-bold text-forest text-lg tracking-[-0.02em]">Fortune</span>
+          <span className="font-manrope font-bold text-forest text-lg tracking-[-0.02em]">Fortune</span>
         </Link>
 
         {/* Desktop nav links */}

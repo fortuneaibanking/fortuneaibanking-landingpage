@@ -23,7 +23,7 @@ export default function HowItWorks() {
           variants={fadeUp}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="font-syne font-extrabold text-forest text-center mb-16"
+          className="font-manrope font-extrabold text-forest text-center mb-16"
           style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", letterSpacing: "-0.025em" }}
         >
           {howItWorks.h2}
@@ -50,12 +50,12 @@ export default function HowItWorks() {
               {/* Step number */}
               <div className="flex items-center gap-4">
                 <span
-                  className="flex-shrink-0 w-10 h-10 rounded-full bg-emerald flex items-center justify-center font-syne font-bold text-white text-sm"
+                  className="flex-shrink-0 w-10 h-10 rounded-full bg-emerald flex items-center justify-center font-mono font-semibold text-white text-sm"
                   aria-hidden="true"
                 >
                   {step.number}
                 </span>
-                <h3 className="font-syne font-bold text-forest text-lg tracking-tight">
+                <h3 className="font-manrope font-bold text-forest text-lg tracking-tight">
                   {step.title}
                 </h3>
               </div>

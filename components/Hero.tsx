@@ -54,7 +54,7 @@ export default function Hero() {
               variants={fadeUp}
               initial="hidden"
               animate="visible"
-              className="font-syne font-extrabold text-forest leading-[1.04] tracking-[-0.03em] mb-3"
+              className="font-manrope font-extrabold text-forest leading-[1.04] tracking-[-0.03em] mb-3"
               style={{ fontSize: "clamp(2.75rem, 6.5vw, 4.25rem)" }}
             >
               {hero.h1}
@@ -66,7 +66,7 @@ export default function Hero() {
               variants={fadeUp}
               initial="hidden"
               animate="visible"
-              className="font-syne font-bold text-gold mb-6"
+              className="font-manrope font-bold text-gold mb-6"
               style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.7rem)", letterSpacing: "-0.02em" }}
               aria-label="Ire o! — a Yoruba blessing meaning good fortune"
             >

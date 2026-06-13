@@ -13,7 +13,7 @@ export default function PrivacyPage() {
         <p className="font-inter text-[0.75rem] font-semibold tracking-[0.14em] text-emerald uppercase mb-4">
           Legal
         </p>
-        <h1 className="font-syne font-extrabold text-forest text-3xl tracking-tight mb-4">
+        <h1 className="font-manrope font-extrabold text-forest text-3xl tracking-tight mb-4">
           Privacy Policy
         </h1>
         <p className="font-inter text-[0.95rem] text-ink/60 leading-relaxed mb-8">
