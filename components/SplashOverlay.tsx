@@ -226,7 +226,7 @@ export default function SplashOverlay() {
               }}
             >
               <LogoVideo
-                src="/brand/fortune-logo.mp4"
+                src="/brand/fortune-logo-animee.mp4"
                 play={phase === "rolling" || phase === "revealed"}
                 onEnded={() => setPhase("revealed")}
                 className="w-56 md:w-72 lg:w-96 select-none"
