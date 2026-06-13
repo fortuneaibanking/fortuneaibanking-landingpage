@@ -217,7 +217,7 @@ export default function SplashOverlay() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: easeOut }}
-            className="relative z-10 flex flex-col items-center gap-8 px-6 text-center"
+            className="relative z-10 flex flex-col items-center gap-0 px-6 text-center"
           >
             {/* Logo animation — bg removed per-frame via canvas pixel processing */}
             <div
@@ -241,7 +241,7 @@ export default function SplashOverlay() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.65, ease: easeOut, delay: 0.12 }}
-                  className="flex flex-col items-center gap-7"
+                  className="flex flex-col items-center gap-7 -mt-10"
                 >
                   <div>
                     <p
