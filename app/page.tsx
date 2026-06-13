@@ -1,3 +1,4 @@
+import SplashOverlay from "@/components/SplashOverlay";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
@@ -11,6 +12,7 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <>
+      <SplashOverlay />
       <Navbar />
       <main id="main-content">
         <Hero />
