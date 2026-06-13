@@ -54,8 +54,8 @@ export default function Hero() {
               variants={fadeUp}
               initial="hidden"
               animate="visible"
-              className="font-manrope font-extrabold text-forest leading-[1.04] tracking-[-0.03em] mb-3"
-              style={{ fontSize: "clamp(2.75rem, 6.5vw, 4.25rem)" }}
+              className="font-manrope font-extrabold text-forest leading-[1.04] tracking-[-0.03em] mb-3 lg:whitespace-nowrap"
+              style={{ fontSize: "clamp(1.875rem, 4vw, 3.5rem)" }}
             >
               {hero.h1}
             </motion.h1>

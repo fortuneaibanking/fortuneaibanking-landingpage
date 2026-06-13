@@ -11,22 +11,20 @@ type Message = {
   gold?: boolean;
 };
 
-// Wrap Nigerian naira amounts, account numbers, and data sizes in mono spans
-function renderWithMono(text: string): React.ReactNode {
-  const pattern = /(N[\d,]+|₦[\d,]+|\d{10}|\d+GB|\d+MB)/g;
-  const parts = text.split(pattern);
-  const matches = text.match(pattern) ?? [];
-  return parts.reduce<React.ReactNode[]>((acc, part, i) => {
-    acc.push(part);
-    if (matches[i]) {
-      acc.push(
-        <span key={i} className="font-mono font-medium tracking-tight">
-          {matches[i]}
-        </span>
-      );
-    }
-    return acc;
-  }, []);
+// Wrap Naira amounts, account numbers, and data sizes in JetBrains Mono.
+// split() with a capturing group interleaves plain text and matches:
+// [plain, MATCH, plain, MATCH, plain] -- odd indices are the matches.
+function renderWithMono(text: string) {
+  const parts = text.split(/(N[\d,]+|\d{10}|\d+GB|\d+MB)/);
+  return parts.map((part, i) =>
+    i % 2 === 1 ? (
+      <span key={i} className="font-mono font-medium tracking-tight">
+        {part}
+      </span>
+    ) : (
+      part
+    )
+  );
 }
 
 interface ChatMockupProps {
