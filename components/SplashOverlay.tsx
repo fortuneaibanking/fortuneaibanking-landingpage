@@ -15,17 +15,14 @@ interface Particle {
   rotation: number;
   rotSpeed: number;
   alpha: number;
-  respawnAt: number; // ms timestamp; 0 = currently active
+  respawnAt: number;
 }
 
 const PARTICLE_COUNT = 68;
-const PROC_SIZE = 512; // internal resolution for white-bg removal
+const PROC_SIZE = 512;
 
-// Strip white/near-white pixels from the image at pixel level.
-// Returns a processed canvas and its dataURL for use as <img src>.
 function buildProcessedCowrie(img: HTMLImageElement): {
   offscreen: HTMLCanvasElement;
-  dataUrl: string;
 } {
   const off = document.createElement("canvas");
   off.width = PROC_SIZE;
@@ -38,24 +35,21 @@ function buildProcessedCowrie(img: HTMLImageElement): {
 
   for (let i = 0; i < d.length; i += 4) {
     const r = d[i], g = d[i + 1], b = d[i + 2];
-    // Fully transparent: near-pure white (high value, low saturation)
     if (r >= 238 && g >= 238 && b >= 238) {
       d[i + 3] = 0;
     } else if (r > 195 && g > 195 && b > 195) {
-      // Soft anti-aliased edge: partial alpha based on how white it is
       const whiteness = (r + g + b) / 3;
       d[i + 3] = Math.round(((255 - whiteness) / 60) * 255);
     }
   }
 
   ctx.putImageData(id, 0, 0);
-  return { offscreen: off, dataUrl: off.toDataURL("image/png") };
+  return { offscreen: off };
 }
 
 function spawnParticle(W: number, H: number, stagger: boolean): Particle {
   return {
     x: Math.random() * W,
-    // stagger=true: spread initial Y across the full column so rain looks full on load
     y: stagger
       ? -(Math.random() * H * 1.3 + 20)
       : -(20 + Math.random() * 100),
@@ -72,21 +66,26 @@ function spawnParticle(W: number, H: number, stagger: boolean): Particle {
 export default function SplashOverlay() {
   const [phase, setPhase] = useState<Phase>("raining");
   const [mounted, setMounted] = useState(true);
-  const [heroCowrieSrc, setHeroCowrieSrc] = useState<string | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const rafRef = useRef<number>(0);
   const phaseRef = useRef<Phase>("raining");
   const t1 = useRef<ReturnType<typeof setTimeout> | null>(null);
   const t2 = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Mirror state into a ref so the canvas loop can read it without stale closures
   useEffect(() => {
     phaseRef.current = phase;
   }, [phase]);
 
+  // Trigger video play when rolling phase mounts
   useEffect(() => {
-    // Reduced-motion: skip straight to reveal
+    if (phase === "rolling" && videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, [phase]);
+
+  useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setPhase("revealed");
       return;
@@ -97,7 +96,6 @@ export default function SplashOverlay() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Retina-aware canvas sizing
     const DPR = window.devicePixelRatio || 1;
     const W = canvas.clientWidth;
     const H = canvas.clientHeight;
@@ -109,11 +107,8 @@ export default function SplashOverlay() {
     img.src = "/brand/green-cowrie.png";
 
     img.onload = () => {
-      const { offscreen, dataUrl } = buildProcessedCowrie(img);
-      setHeroCowrieSrc(dataUrl);
+      const { offscreen } = buildProcessedCowrie(img);
 
-      // 65% of particles staggered across the vertical column so rain looks
-      // dense from frame 1, not sparse until the first batch arrives.
       const staggerCount = Math.floor(PARTICLE_COUNT * 0.65);
       const particles: Particle[] = Array.from({ length: PARTICLE_COUNT }, (_, i) =>
         spawnParticle(W, H, i < staggerCount)
@@ -125,7 +120,6 @@ export default function SplashOverlay() {
         const ph = phaseRef.current;
 
         for (const p of particles) {
-          // Waiting to respawn
           if (p.respawnAt > 0) {
             if (now >= p.respawnAt) {
               const fresh = spawnParticle(W, H, false);
@@ -139,16 +133,14 @@ export default function SplashOverlay() {
           p.x += p.vx;
           p.rotation += p.rotSpeed;
 
-          // Off the bottom — schedule respawn
           if (p.y > H + p.size) {
             p.respawnAt = now + 150 + Math.random() * 600;
             continue;
           }
 
-          // Dim rain while hero rolls; fade to ghost after text reveals
           const alpha =
             ph === "revealed" ? p.alpha * 0.18 :
-            ph === "rolling"  ? p.alpha * 0.55 :
+            ph === "rolling"  ? p.alpha * 0.45 :
             p.alpha;
 
           ctx.save();
@@ -164,10 +156,12 @@ export default function SplashOverlay() {
 
       rafRef.current = requestAnimationFrame(tick);
 
-      // Rain runs for 2.6s, then hero rolls while rain continues
+      // Rain runs for 2.6s, then the logo video fades in
       t1.current = setTimeout(() => setPhase("rolling"), 2600);
-      // Roll animation is 1.6s; reveal text at ~4.2s
-      t2.current = setTimeout(() => setPhase("revealed"), 4200);
+      // Fallback: if video's onEnded never fires (e.g. very long video), reveal at 10s
+      t2.current = setTimeout(() => {
+        setPhase(prev => prev === "rolling" ? "revealed" : prev);
+      }, 10000);
     };
 
     return () => {
@@ -195,7 +189,7 @@ export default function SplashOverlay() {
       role="dialog"
       aria-label="Fortune intro"
     >
-      {/* DPR-sharp canvas — processed images have no white background */}
+      {/* Rain canvas */}
       <canvas
         ref={canvasRef}
         aria-hidden="true"
@@ -204,13 +198,13 @@ export default function SplashOverlay() {
           opacity:
             phase === "dismissed" ? 0 :
             phase === "revealed"  ? 0.18 :
-            phase === "rolling"   ? 0.55 :
+            phase === "rolling"   ? 0.45 :
             1,
           transition: "opacity 1.1s ease",
         }}
       />
 
-      {/* Skip — visible in all phases except dismissed */}
+      {/* Skip button */}
       {phase !== "dismissed" && (
         <button
           onClick={handleDismiss}
@@ -221,43 +215,36 @@ export default function SplashOverlay() {
         </button>
       )}
 
-      {/* Hero cowrie + reveal — appears once rolling starts */}
+      {/* Logo video + reveal text */}
       <AnimatePresence>
         {(phase === "rolling" || phase === "revealed") && (
           <motion.div
-            key="hero"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.2 }}
+            key="logo-reveal"
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: easeOut }}
             className="relative z-10 flex flex-col items-center gap-8 px-6 text-center"
-            style={{ perspective: "900px" }}
           >
-            {/* Outer wrapper drives the y + scale (rolling toward viewer) */}
-            <motion.div
-              initial={{ y: "46vh", scale: 0.06 }}
-              animate={{ y: 0, scale: 1 }}
-              transition={{ duration: 1.6, ease: easeOut }}
+            {/* Logo animation — white bg removed via multiply blend */}
+            <div
+              style={{
+                filter: "drop-shadow(0 24px 48px rgba(11,46,31,0.18)) drop-shadow(0 6px 12px rgba(11,46,31,0.10))",
+              }}
             >
-              {/* Inner wrapper drives the rotateX (wheel spin = rolling) */}
-              {heroCowrieSrc && (
-                <motion.img
-                  src={heroCowrieSrc}
-                  alt="Green and gold cowrie shell — Fortune"
-                  initial={{ rotateX: 0 }}
-                  animate={{ rotateX: 360 }}
-                  transition={{ duration: 1.6, ease: easeOut }}
-                  className="w-36 md:w-52 lg:w-60 select-none"
-                  draggable={false}
-                  style={{
-                    transformStyle: "preserve-3d",
-                    filter:
-                      "drop-shadow(0 28px 56px rgba(11,46,31,0.28)) drop-shadow(0 8px 16px rgba(11,46,31,0.14))",
-                  }}
-                />
-              )}
-            </motion.div>
+              <video
+                ref={videoRef}
+                src="/brand/fortune-logo.mp4"
+                muted
+                playsInline
+                onEnded={() => setPhase("revealed")}
+                className="w-56 md:w-72 lg:w-96 select-none"
+                style={{ mixBlendMode: "multiply" }}
+                aria-label="Fortune logo animation"
+              />
+            </div>
 
-            {/* Text + CTA — waits for rolling to finish */}
+            {/* Text + CTA — fades in after video ends */}
             <AnimatePresence>
               {phase === "revealed" && (
                 <motion.div
